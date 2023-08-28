@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
+import { 
+  Button,
+  Container,
+  Chip,
+  Stack,
+  ListItem,
+  List,
+  Divider,
+  Avatar,
+  ListItemText,
+  ListItemAvatar, 
+  Typography 
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { SearchField } from '@aws-amplify/ui-react';
+import searchInArray from "../../utils/searchInArray";
 
 const ListEntries = () => {
   const [query, setQuery] = useState('');
+  const [entries, setEntries] = useState([]);
 
   const onChange = (event) => {
     setQuery(event.target.value);
@@ -20,15 +27,31 @@ const ListEntries = () => {
     setQuery('');
   };
 
+  // Fetch Entries
+  const fetchEntries = async () => {
+    const res = await fetch('http://localhost:5000/data/')
+    const data = await res.json()
+    console.log(data)
+    return data
+  }
+
+  useEffect(() => {
+    const getEntries = async () => {
+      const entriesFromServer = await fetchEntries();
+      setEntries(entriesFromServer);
+    }
+  
+    getEntries()
+  }, []);
+
   return (
     <>
       <Container className="py-5">
         <div className="row">
           <div className="col-11">
             <SearchField
-              fullWidth
               label="Search"
-              placeholder="Search here..."
+              placeholder="Search by name here..."
               hasSearchButton={false}
               hasSearchIcon={true}
               onChange={onChange}
@@ -36,14 +59,41 @@ const ListEntries = () => {
               value={query}
             />
           </div>
-          <div className="col-1 text-end">
-            <Button fullWidth variant='contained' color="success" component={Link} to="/create-entry">
+          <div className="col-1">
+            <Button variant='contained' color="success" component={Link} to="/create-entry">
               New
             </Button>
           </div>
         </div>
+
         <div className="mt-4">
-          <Accordion>
+          <List>
+            {
+              searchInArray(query, entries).map(entry => (
+                <>
+                  <ListItem alignItems="flex-start" key={entry.id}>
+                    <ListItemAvatar>
+                        <Avatar alt={entry.name} />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={entry.name}
+                        secondary={
+                          <Stack direction="row" spacing={1} className="pt-3">
+                            {
+                              entry.sectors.map((sector, index) => (
+                                <Chip key={index} label={sector} />
+                              ))
+                            }
+                          </Stack>
+                        }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </>
+              ))
+            }
+          </List>
+          {/* <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -72,7 +122,7 @@ const ListEntries = () => {
                 malesuada lacus ex, sit amet blandit leo lobortis eget.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
         </div>
       </Container>
     </>

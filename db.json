@@ -1,19 +1,74 @@
 {
-  "posts": [
+  "data": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id": "llv8efai5v78330",
+      "name": "Ange",
+      "sectors": [
+        "April Tucker",
+        "Omar Alexander",
+        "Van Henry"
+      ],
+      "agreeTerms": true
+    },
+    {
+      "id": "llva7g52mzj73s0",
+      "name": "God",
+      "sectors": [
+        "April Tucker",
+        "Carlos Abbott",
+        "Omar Alexander"
+      ],
+      "agreeTerms": true
+    },
+    {
+      "id": "llvamu9sn0sn846",
+      "name": "Helen Pompeo",
+      "sectors": [
+        "Ralph Hubbard",
+        "April Tucker",
+        "Oliver Hansen",
+        "Carlos Abbott"
+      ],
+      "agreeTerms": true
     }
   ],
-  "comments": [
+  "sectors": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "title": "Manufacturing",
+      "data": [
+        {"id": 5,"sector": "Printing"},
+        {"id": 6,"sector": "Food and Beverage"},
+        {"id": 7,"sector": "Textile and Clothing"},
+        {"id": 8,"sector": "Wood"},
+        {"id": 9,"sector": "Plastic and Rubber"},
+        {"id": 11,"sector": "Metalworking"},
+        {"id": 12,"sector": "Machinery"},
+        {"id": 13,"sector": "Furniture"},
+        {"id": 18,"sector": "Electronics and Optics"},
+        {"id": 19,"sector": "Construction materials"}
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Service",
+      "data": [
+        {"id": 21,"sector": "Transport and Logistics"},
+        {"id": 22,"sector": "Tourism"},
+        {"id": 25,"sector": "Business services"},
+        {"id": 28,"sector": "Information Technology and Telecommunications"},
+        {"id": 35,"sector": "Engineering"},
+        {"id": 141,"sector": "Translation services"}
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Other",
+      "data": [
+        {"id": 37,"sector": "Creative industries"},
+        {"id": 29,"sector": "Energy technology"},
+        {"id": 33,"sector": "Environment"}
+      ]
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
