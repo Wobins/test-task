@@ -1,0 +1,14 @@
+{
+    "sectors": [
+        {
+            "id": 1,
+            "name": "Agriculture",
+            "sector": "Manifacturing"
+        },
+        {
+            "id": 2,
+            "name": "Agriculturenn",
+            "sector": "Manifacturingnnj"
+        }
+    ]
+}
