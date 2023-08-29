@@ -105,7 +105,7 @@ const CreateEntryForm = () => {
 
   // Fetch Sectors
   const fetchSectors = async () => {
-    const res = await fetch('http://localhost:5000/sectors/')
+    const res = await fetch('https://restful-api-vercel-iota.vercel.app/sectors')
     const data = await res.json()
     console.log(data)
     return data
