@@ -11,11 +11,9 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  ListSubheader,
   ListItemText
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import getStyles from '../../utils/getStyles';
 import generateUniqueID from '../../utils/generateUniqueID';
 import createSectorsArray from '../../utils/createSectorsArray';
 
@@ -30,22 +28,8 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 
 const CreateEntryForm = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [sectorsList, setSectorsList] = useState([]);
   const [selectedSectors, setSelectedSectors] = useState([]);
@@ -70,16 +54,6 @@ const CreateEntryForm = () => {
     );
   };
 
-  // const handleChangeSectors = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setSelectedSectors(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value,
-  //   );
-  // };
-
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -87,19 +61,24 @@ const CreateEntryForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:5000/data/', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: formData.id,
-        name: formData.name,
-        sectors: selectedSectors,
-        agreeTerms: checked
-      })
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch('https://restful-api-vercel-iota.vercel.app/data/', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: formData.id,
+          name: formData.name,
+          sectors: selectedSectors,
+          agreeTerms: checked
+        })
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    
+    // const data = await res.json();
     navigate("/");
   }
 
