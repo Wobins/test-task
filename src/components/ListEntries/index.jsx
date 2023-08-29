@@ -4,6 +4,7 @@ import {
   Container,
   Chip,
   Stack,
+  Box,
   ListItem,
   List,
   Divider,
@@ -15,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { SearchField } from '@aws-amplify/ui-react';
 import searchInArray from "../../utils/searchInArray";
+// import './styles.css';
 
 const ListEntries = () => {
   const [query, setQuery] = useState('');
@@ -46,7 +48,7 @@ const ListEntries = () => {
 
   return (
     <>
-      <Container className="py-5">
+      <Container className="py-5 mb-3">
         <div className="row">
           <div className="col-11">
             <SearchField
@@ -70,59 +72,29 @@ const ListEntries = () => {
           <List>
             {
               searchInArray(query, entries).map(entry => (
-                <>
-                  <ListItem alignItems="flex-start" key={entry.id}>
+                <div key={entry.id}>
+                  <ListItem alignItems="flex-start" >
                     <ListItemAvatar>
-                        <Avatar alt={entry.name} />
+                      <Avatar alt={entry.name} />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={entry.name}
-                        secondary={
-                          <Stack direction="row" spacing={1} className="pt-3">
-                            {
-                              entry.sectors.map((sector, index) => (
-                                <Chip key={index} label={sector} />
-                              ))
-                            }
-                          </Stack>
-                        }
+                      primary={entry.name}
+                      secondary={
+                        <Box xs={{width: 90}} direction="row" spacing={1} className="pt-2">
+                          {
+                            entry.sectors.map((sector, index) => (
+                              <Chip key={index} label={sector} className="me-1 my-1" />
+                            ))
+                          }
+                        </Box>
+                      }
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />
-                </>
+                </div>
               ))
             }
           </List>
-          {/* <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Accordion 1</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-              <Typography>Accordion 2</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion> */}
         </div>
       </Container>
     </>

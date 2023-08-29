@@ -5,7 +5,7 @@ import './styles.css';
 
 const Footer = (props) => {
     return (
-        <footer className='footer mt-3'>
+        <footer className='footer mt-5'>
             <Typography variant="body2" color="text.secondary" align="center" className='m-0 py-3' {...props}>
                 {'Copyright © '}
                 <Link color="inherit" to="https://github.com/Wobins" target="_blank">

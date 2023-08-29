@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import getStyles from '../../utils/getStyles';
 import generateUniqueID from '../../utils/generateUniqueID';
+import createSectorsArray from '../../utils/createSectorsArray';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,7 +47,6 @@ const names = [
 const CreateEntryForm = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [selectedItems, setSelectedItems] = useState([]);
   const [sectorsList, setSectorsList] = useState([]);
   const [selectedSectors, setSelectedSectors] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -59,15 +59,8 @@ const CreateEntryForm = () => {
     setChecked(event.target.checked);
   };
 
-  const handleChangeOptions = (event) => {
-    setSelectedItems(event.target.value);
-  };
-
   const handleSectorChange = (event) => {
-    setSelectedSectors(event.target.value);
-  };
-
-  const handleChangeSectors = (event) => {
+    // setSelectedSectors(event.target.value);
     const {
       target: { value },
     } = event;
@@ -76,6 +69,16 @@ const CreateEntryForm = () => {
       typeof value === 'string' ? value.split(',') : value,
     );
   };
+
+  // const handleChangeSectors = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setSelectedSectors(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'string' ? value.split(',') : value,
+  //   );
+  // };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -97,7 +100,6 @@ const CreateEntryForm = () => {
       })
     });
     const data = await res.json();
-    console.log(data)
     navigate("/");
   }
 
@@ -113,11 +115,17 @@ const CreateEntryForm = () => {
     const getSectors = async () => {
       const sectorsFromServer = await fetchSectors();
       setSectorsList(sectorsFromServer);
-      console.log(sectorsFromServer)
+      console.log(createSectorsArray(sectorsFromServer));
     }
+
+    
   
     getSectors();
   }, []);
+
+  useEffect(() => {
+    console.log(selectedSectors)
+  }, [selectedSectors])
 
   return (
     <>
@@ -138,91 +146,28 @@ const CreateEntryForm = () => {
                 value={formData.name} 
                 onChange={handleChange}
               />
-              {/* <FormControl fullWidth margin='normal' required>
-                <InputLabel id="demo-multiple-name-label">Sectors</InputLabel>
-                <Select
-                  labelId="demo-multiple-name-label"
-                  id="demo-multiple-name"
-                  multiple
-                  value={selectedSectors}
-                  onChange={handleChangeSectors}
-                  input={<OutlinedInput label="Name" />}
-                  MenuProps={MenuProps}
-                >
-                  {names.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, selectedSectors, theme)}
-                    >
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl> */}
+              
 
               <FormControl fullWidth margin='normal' required >
-                <InputLabel id="sectors">Select Items</InputLabel>
+                <InputLabel id="sectors">Select sectors</InputLabel>
                 <Select
                   labelId="sectors"
                   id="multiple-sectors"
                   multiple
-                  value={selectedItems}
+                  value={selectedSectors}
                   onChange={handleSectorChange}
                   renderValue={(selected) => selected.join(', ')}
+                  input={<OutlinedInput label="Name" />}
+                  MenuProps={MenuProps}
                 >
-                  {
-                    sectorsList.map((el, index) => (
-                      <div key={index}>
-                        <MenuItem disabled>
-                          <em>{el.title}</em>
-                        </MenuItem>
-                        {el.data.map(data => (
-                          <MenuItem key={data.id} value={data.sector}>
-                            {/* <Checkbox checked={selectedItems.indexOf(data.sector) > -1} /> */}
-                            <Checkbox checked={selectedSectors.includes(data.sector)} />
-                            <ListItemText primary={data.sector} />
-                          </MenuItem>
-                        ))}
-                      </div>
-                    ))
-                  }
+                  {createSectorsArray(sectorsList).map(data => (
+                    <MenuItem key={data} value={data}>
+                      <Checkbox checked={selectedSectors.indexOf(data) > -1} />
+                      <ListItemText primary={data} />
+                    </MenuItem>
+                  ))}
                 </Select>
-              </FormControl>
-
-              <FormControl fullWidth>
-      <InputLabel>Select Items</InputLabel>
-      <Select
-        multiple
-        value={selectedItems}
-        onChange={handleChangeOptions}
-        renderValue={(selected) => selected.join(', ')}
-      >
-        <MenuItem disabled>
-          <em>Group 1</em>
-        </MenuItem>
-        <MenuItem value="item1">
-          <Checkbox checked={selectedItems.indexOf('item1') > -1} />
-          <ListItemText primary="Item 1" />
-        </MenuItem>
-        <MenuItem value="item2">
-          <Checkbox checked={selectedItems.indexOf('item2') > -1} />
-          <ListItemText primary="Item 2" />
-        </MenuItem>
-        <MenuItem disabled>
-          <em>Group 2</em>
-        </MenuItem>
-        <MenuItem value="item3">
-          <Checkbox checked={selectedItems.indexOf('item3') > -1} />
-          <ListItemText primary="Item 3" />
-        </MenuItem>
-        <MenuItem value="item4">
-          <Checkbox checked={selectedItems.indexOf('item4') > -1} />
-          <ListItemText primary="Item 4" />
-        </MenuItem>
-        {/* Add more items and groups as needed */}
-      </Select>
-    </FormControl>
+              </FormControl> 
 
               <FormControlLabel 
                 required 
