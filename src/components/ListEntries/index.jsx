@@ -50,12 +50,12 @@ const ListEntries = () => {
     <>
       <Container className="py-5 mb-3">
         <div className="row">
-          <div className="col-md-1 order-md-2 my-3 my-md-0">
+          <div className="col-md-2 order-md-2 my-3 my-md-0">
             <Button fullWidth variant='contained' color="success" component={Link} to="/create-entry">
               New
             </Button>
           </div>
-          <div className="col-md-11">
+          <div className="col-md-10">
             <SearchField
               label="Search"
               placeholder="Search by name here..."
